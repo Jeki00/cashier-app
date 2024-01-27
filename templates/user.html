@@ -1,0 +1,30 @@
+{% extends "layouts/app.html" %}
+
+{% block nav %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="{{ url_for('login')}}">Login</a>
+    </li>
+</ul>       
+{% endblock %}
+{% block content %}
+    <form action="{{ url_for('register') }}" method="post">
+        <label for="username" class="form-label"> Username</label>
+        <input type="text" class="form-control" id="username" name="username">
+        <label for="password"  class="form-label"> Password</label>
+        <input type="password" id="password" name="password" class="form-control">
+        <button type="submit" class="btn btn-primary my-2">Tambah</button>
+    </form>
+
+    <hr>
+    <h3>Daftar pemilik hak akses</h3>
+    {% for user in users %}
+    {% if user['role'] == 'pegawai' %}
+    <div class="border p-2 m-2 rounded">
+        <p>{{user['username']}} ({{user['role']}})</p>
+        <a class="btn btn-danger" href="{{url_for('delete_user', user_id=user['_id'])}}">Hapus</a>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+{% endblock %}

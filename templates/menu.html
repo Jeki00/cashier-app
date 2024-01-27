@@ -1,0 +1,61 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+    <h2>Tambah daftar Menu makan</h2>
+    <form action="{{ url_for('menu') }}" method="post">
+        <label for="menu">nama menu</label>
+        <input type="text" id="menu" name="menu" required>
+        <label for="harga">Harga</label>
+        <input type="number" id="harga" name="harga" required>
+
+        <label for="kategori">kategori</label>
+        <select id="kategori" name="kategori">
+            <option value="makanan">makanan</option>
+            <option value="minuman">minuman</option>
+            <option value="lain-lainnya">lain-lainnya</option>
+
+        </select>
+        <button class="btn btn-primary" type="submit">Tambah</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success m-5">
+                {{message}}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <table class="table m-5">
+        <thead>
+            <td>nama</td>
+            <td>harga</td>
+            <td>kategori</td>
+            <td></td>
+        </thead>
+        {% for menu in menus%}
+            <tr>
+            <form action="/menu/{{menu['_id']}}" method="post">
+                <td><input type="text" value="{{menu['menu']}}" name="menu" class="form-control"> </td>
+                <td><input type="number" value="{{menu['harga']}}" name="harga" class="form-control"> </td>
+                <td> 
+                    <select name="kategori" id="" class="form-select">
+                        <option value="makanan" {{ "selected" if menu["kategori"]=='makanan' }}>
+                            makanan
+                        </option>
+                        <option value="minuman" {{ "selected" if menu["kategori"]=='minuman' }}>minuman</option>
+                        <option value="lain-lainnya" {{ "selected" if menu["kategori"]=='lain-lainnya' }}>lain-lainnya</option>
+                    </select>
+                </td>
+                <td>
+                        <button class="btn btn-info" type="submit">ubah</button> 
+                        <a class="btn btn-danger" href="{{url_for('delete',menu_id=menu['_id'])}}">Hapus</a>
+            </form>
+                    <!-- <form action="menu/{{menu['_id']}}/delete" method="post">
+                        <button class="btn btn-danger" type="submit">Hapus</button> 
+                    </form> -->
+                </td>
+            </tr>
+        {% endfor%}
+    </table>
+{% endblock %}

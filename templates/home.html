@@ -1,0 +1,63 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+    <h2>daftar Menu makan</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success m-5">
+                {{message}}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="{{url_for('home')}}" method="post">
+        <label for="nama" class="form-label">Nama</label>
+        <input type="text" class="form-control" name="nama" required>
+        <table class="table">
+            <tr>
+                <td colspan="3">
+                    <h3>makanan</h3>
+                </td>
+            </tr>
+        {% for menu in makanan%}
+            <tr>
+                <td>{{menu['menu']}}</td>
+                <td>Rp. {{menu['harga']}}</td>
+                <td><input type="number" class="form-control col-xs-2" id="qty_{{menu['menu']}}" name="qty_{{menu['menu']}}" placeholder="masukkan jumlah pesanan"></td>
+            </tr>
+            <!-- <div class="input-group mb-3">
+                <span class="input-group-text">{{menu['menu']}}</span>
+                <span class="input-group-text">Rp. {{menu['harga']}}</span>
+                <input type="number" class="form-control" id="qty_{{menu['menu']}}" name="qty_{{menu['menu']}}" value="0">
+            </div> -->
+            {% endfor %}
+
+        <tr>
+            <td colspan="3">
+                <h3>minuman</h3>
+            </td>
+        </tr>
+        {% for menu in minuman%}
+            <tr>
+                <td>{{menu['menu']}}</td>
+                <td>Rp. {{menu['harga']}}</td>
+                <td><input type="number" class="form-control col-xs-2" id="qty_{{menu['menu']}}" name="qty_{{menu['menu']}}" placeholder="masukkan jumlah pesanan"></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3">
+                <h3>lain-lainnya</h3>
+            </td>
+        </tr>
+        {% for menu in lainnya%}
+            <tr>
+                <td>{{menu['menu']}}</td>
+                <td>Rp. {{menu['harga']}}</td>
+                <td><input type="number" class="form-control col-xs-2" id="qty_{{menu['menu']}}" name="qty_{{menu['menu']}}" placeholder="masukkan jumlah pesanan"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button class="btn btn-success" type="submit">Selesai</button>
+    </form>
+{% endblock %}

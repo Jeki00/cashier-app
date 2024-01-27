@@ -1,0 +1,24 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+    <form action="/order" method="get">
+        <label for="from" class="form-label">from</label>
+        <input type="date" id="from" name="from">
+        <label for="to" class="form-label">to</label>
+        <input type="date" id="from" name="to">
+        <button type="submit">cari</button>
+    </form>
+    {%for order in orders%}
+    <div class="border m-2 p-2 rounded">
+        <p>Nama     : {{order['nama']}}</p>
+        <p>tanggal  : {{order['date']}}</p>
+        <p>pelayan  : {{order['pelayan']}}</p>
+        <p>order    :</p>
+        {% for pesanan in order['orders'] %}
+            <p> * {{pesanan['menu']}} - Rp. {{pesanan['harga']}}  x {{ pesanan['jumlah'] }}     =   Rp. {{pesanan['subtotal']}} </p>
+        {% endfor %}
+        <p>total    : <br>
+            Rp. {{order['total']}}</p>
+    </div>
+    {% endfor %}
+{% endblock %}
